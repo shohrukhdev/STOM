@@ -1,0 +1,109 @@
+{% extends "home.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %}Treatement{% endblock %}
+{% block content %}
+{% get_current_language as LANG_CODE %}
+
+  <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="card" style="margin-top: 2px">
+            <div class="card-header p-2">
+              <h4>Dr. {{ doctor.user.last_name }}</h4>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>{{ teeth.0.code }}</td>
+                    <td>{{ teeth.1.code }}</td>
+                    <td>{{ teeth.2.code }}</td>
+                    <td>{{ teeth.3.code }}</td>
+                    <td>{{ teeth.4.code }}</td>
+                    <td>{{ teeth.5.code }}</td>
+                    <td>{{ teeth.6.code }}</td>
+                    <td>{{ teeth.7.code }}</td>
+                    <td>{{ teeth.8.code }}</td>
+                    <td>{{ teeth.9.code }}</td>
+                    <td>{{ teeth.10.code }}</td>
+                    <td>{{ teeth.11.code }}</td>
+                    <td>{{ teeth.12.code }}</td>
+                    <td>{{ teeth.13.code }}</td>
+                    <td>{{ teeth.14.code }}</td>
+                    <td>{{ teeth.15.code }}</td>
+                  </tr>
+                <tr>
+                    <td>{{ teeth.16.code }}</td>
+                    <td>{{ teeth.17.code }}</td>
+                    <td>{{ teeth.18.code }}</td>
+                    <td>{{ teeth.19.code }}</td>
+                    <td>{{ teeth.20.code }}</td>
+                    <td>{{ teeth.21.code }}</td>
+                    <td>{{ teeth.22.code }}</td>
+                    <td>{{ teeth.23.code }}</td>
+                    <td>{{ teeth.24.code }}</td>
+                    <td>{{ teeth.25.code }}</td>
+                    <td>{{ teeth.26.code }}</td>
+                    <td>{{ teeth.27.code }}</td>
+                    <td>{{ teeth.28.code }}</td>
+                    <td>{{ teeth.29.code }}</td>
+                    <td>{{ teeth.30.code }}</td>
+                    <td>{{ teeth.31.code }}</td>
+                </tr>
+                </tbody>
+              </table>
+              <ul class="nav nav-tabs" style="margin-top: 5px; text-align: center; ">
+                {% for c in categories %}
+                 <li class="nav-item">
+                   <a class="nav-link" id="service_category{{ c.id }}"
+                      data-toggle="pill" href="#service_category{{ c.id }}"
+                      role="tab" aria-controls="service_category{{ c.id }}">
+                      {{ c.name }}
+                   </a>
+                 </li>
+                {% endfor %}
+              </ul>
+            <div class="tab-content" id="custom-content-below-tabContent">
+                <div class="tab-pane active" role="tabpanel" id="tab_pane">
+                  <div class="row" id="tab_content1">
+
+                  </div>
+
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          {{ services }}
+        </div>
+      </div>
+  </div>
+{% endblock %}
+{% block js %}
+  {{ block.super }}
+  <script>
+  var services;
+  $(document).ready(function () {
+    services = JSON.parse('{{ services }}'.replace(/&quot;/g,'"'));
+    fillServices({{ categories.0.id }})
+
+  });
+
+  function fillServices(cat_id) {
+    filteredServices = services.filter(v => v.category_id === cat_id);
+    $.each(filteredServices, function (i, val) {
+      console.log(val.id);
+      $('#tab_content1').append('<div class="col-md-3" ' +
+                                  ' <div class="custom-control custom-checkbox">'
+                                + ' <input class="custom-control-input" type="checkbox" id="customCheckbox' + val.id + '">'
+                                + ' <label for="customCheckbox' + val.id + '" class="custom-control-label"></label> '
+                                + '</div>' +
+                                '</div>');
+    });
+
+  }
+  </script>
+
+{% endblock js%}
