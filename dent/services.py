@@ -113,17 +113,71 @@ def get_clinic_patients_json(cur_user):
     return patient_list
 
 
-def treatement_get_context(cur_user, patient_id):
+def treatment_get_context(cur_user, patient_id):
     stuff = Stuff.objects.get(user=cur_user)
     patient = Patient.objects.get(id=patient_id)
     services = Service.objects.filter(doctor=stuff, status=1).values()
-    categories = Service_Category.objects.all()
+    categories = ServiceCategory.objects.filter(stuff=stuff)
+    tooth_states = ToothState.objects.all().values()
     teeth = Teeth.objects.all()
     json_ser = json.dumps(list(services), cls=DjangoJSONEncoder)
-    print(json_ser)
+    json_states = json.dumps(list(tooth_states), cls=DjangoJSONEncoder)
     context = {'doctor': stuff,
                'patient': patient,
                'categories': categories,
+               'tooth_states': json_states,
                'services': json_ser,
                'teeth': teeth}
     return context
+
+
+def save_treatment(cur_user, data):
+    global procedure
+    response = {}
+    try:
+        doctor = Stuff.objects.get(user=cur_user)
+        patient = Patient.objects.get(id=data['patient_id'])
+        treatment = Treatment.objects.create(doctor=doctor,
+                                             patient=patient,
+                                             complaint=data['complaint'],
+                                             diagnosis=data['diagnosis'],
+                                             cr_on=datetime.now(),
+                                             description=data['recommendations'],
+                                             total_amount=data['total'],
+                                             discount=data['discount'],
+                                             paid_amount=data['amount_paid'],
+                                             cr_by=cur_user)
+        for i in data.keys():
+            if i.isnumeric():  # IF TOOTH NUMBER
+                for s in data[i]:   # SERVICES FOR THAT TOOTH
+                    tooth = Teeth.objects.get(id=i)
+                    service = Service.objects.get(id=s['id'])
+                    procedure = Procedure.objects.create(treatment=treatment,
+                                                         teeth=tooth,
+                                                         service=service,
+                                                         quantity=s['quantity'],
+                                                         price=s['price'])
+
+                for ts in data['teeth_states'][i]:  # STATES OF THAT TOOTH
+                    tooth_state = ToothState.objects.get(id=ts)
+                    tooth = Teeth.objects.get(id=i)
+                    ProcedureToothState.objects.create(treatment=treatment,
+                                                       teeth=tooth,
+                                                       tooth_state=tooth_state)
+        response['success'] = True
+        response['treatment_id'] = treatment.id
+    except Exception as e:
+        print(traceback.format_exc())
+        response['success'] = False
+        response['error_msg'] = traceback.format_exc()
+    return response
+
+
+def get_treatment(treatment_id):
+    treatment = Treatment.objects.get(id=treatment_id)
+    teeth_set = Treatment.objects.get(id=treatment_id).procedure_set
+    context = {"treatment": treatment,
+               "teeth_set": teeth_set}
+    return context
+
+

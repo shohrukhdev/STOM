@@ -1,3 +1,4 @@
+import json
 import traceback
 
 from django.shortcuts import render
@@ -41,6 +42,11 @@ def calendar(request):
 
 
 @login_required
+def calendar_list(request):
+    return render(request, 'dent/calendar_list.html')
+
+
+@login_required
 def add_event(request):
     response = {}
     if request.is_ajax and request.method == 'POST':
@@ -63,7 +69,6 @@ def delete_event(request):
 
 @login_required
 def patient_list(request):
-
     return render(request, 'dent/patient_list.html')
 
 
@@ -105,13 +110,20 @@ def get_patient_list_json(request):
 @login_required
 def treatment(request):
     if request.method == 'GET':
-        context = service.treatement_get_context(request.user, request.GET['patient_id'])
+        context = service.treatment_get_context(request.user, request.GET['patient_id'])
         return render(request, 'dent/treatement.html', context=context)
 
 
+@login_required
+def save_treatment(request):
+    if request.is_ajax and request.method == 'POST':
+        data = json.loads(request.body)
+        response = service.save_treatment(request.user, data)
+        return JsonResponse(response, status=200, safe=False)
 
 
-
-
-
-
+@login_required
+def get_treatment(request):
+    if request.method == 'GET':
+        context = service.get_treatment(request.GET['treatment_id'])
+        return render(request, 'dent/treatment_info.html', context=context)

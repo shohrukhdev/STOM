@@ -37,8 +37,8 @@ class ServiceAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Treatement)
-class TreatementAdmin(admin.ModelAdmin):
+@admin.register(Treatment)
+class TreatmentAdmin(admin.ModelAdmin):
     pass
 
 
@@ -47,6 +47,20 @@ class ProcedureAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Service_Category)
+class ServiceInline(admin.TabularInline):
+    model = Service
+    extra = 0
+
+
+@admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
+    inlines = [ServiceInline]
+
+
+@admin.register(ToothState)
+class ToothStateAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(ProcedureToothState)
+class ProvedureToothStateAdmin(admin.ModelAdmin):
     pass

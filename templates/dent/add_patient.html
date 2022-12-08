@@ -13,7 +13,7 @@
             <div class="card-header">
               <h3 class="card-title">{% trans 'Add New Patient' %}</h3>
               <div class="card-tools">
-                <a type="button" href="{% url 'patient_list' %}" class="btn btn-tool">
+                <a type="button" href="{% url 'patient_list' %}?successSave=false" class="btn btn-tool">
                   <i class="fas fa-window-close"></i></a>
               </div>
             </div>
@@ -73,14 +73,7 @@
           console.log(response);
           if (response.success === true){
             $('#add_patient').trigger('reset');
-            $(document).Toasts('create',{
-              title: 'Info',
-              body: 'Saved Successfully!',
-              autohide: true,
-              delay: 3000,
-              fade: true,
-              class: 'bg-success'
-            })
+            window.location.href = '{% url "patient_list" %}' + '?successSave=true';
           } else {
             $(document).Toasts('create',{
               title: 'Error',

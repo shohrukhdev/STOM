@@ -9,6 +9,7 @@ from dent import api_views, table_views
 router = routers.DefaultRouter()
 router.register('event', viewset=api_views.EventViewSet)
 router.register('patient', viewset=table_views.PatientViewSet)
+router.register('eventlist', viewset=api_views.EventListViewSet, basename='Event')
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -19,11 +20,14 @@ urlpatterns = [
     path('', mainviews.home),
     path('home/', mainviews.home),
     path('calendar/', mainviews.calendar, name='calendar'),
+    path('calendar-list/', mainviews.calendar_list, name='calendar_list'),
     path('calendar/event/add/', mainviews.add_event, name='add_event'),
     path('calendar/event/delete', mainviews.delete_event, name='delete_event'),
     path('patient/list/', mainviews.patient_list, name='patient_list'),
     path('patient/add/', mainviews.patient_add, name='patient_add'),
     path('patient/edit', mainviews.patient_edit, name='patient_edit'),
     path('patient/list_json', mainviews.get_patient_list_json, name='patient_list_json'),
-    path('treatement/add', mainviews.treatment, name='treatement')
+    path('treatement/add', mainviews.treatment, name='treatment'),
+    path('treatment/save', mainviews.save_treatment, name='treatement_save'),
+    path('treatment/info', mainviews.get_treatment, name='treatment')
 ]

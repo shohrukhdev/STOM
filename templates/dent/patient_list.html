@@ -50,6 +50,16 @@
     var selected_row = null;
     var table = null;
     $(document).ready(function () {
+      if ({{ request.GET.successSave }}){
+        $(document).Toasts('create',{
+              title: 'Info',
+              body: 'Saved Successfully!',
+              autohide: true,
+              delay: 3000,
+              fade: true,
+              class: 'bg-success'
+            })
+      }
       checkActBtn();
       var obec = 5;
       table = $('#patient_table').DataTable({
@@ -103,7 +113,7 @@
       window.location.href = '{% url "patient_edit" %}' + '?patient_id=' + selected_row.id
     }
     function addTreatement() {
-      window.location.href = '{% url "treatement" %}' + '?patient_id=' + selected_row.id
+      window.location.href = '{% url "treatment" %}' + '?patient_id=' + selected_row.id
     }
     function deletePatient() {
     }

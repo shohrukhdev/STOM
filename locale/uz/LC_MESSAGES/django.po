@@ -1,0 +1,166 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-28 23:29+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\templates\dent\add_patient.html:14
+msgid "Add New Patient"
+msgstr "Yangi patsient qo'shish"
+
+#: .\templates\dent\add_patient.html:25 .\templates\dent\edit_patient.html:26
+#: .\templates\dent\treatement.html:362
+msgid "Full name"
+msgstr "Ism Familya"
+
+#: .\templates\dent\add_patient.html:29 .\templates\dent\edit_patient.html:30
+msgid "Phone"
+msgstr "Telefon"
+
+#: .\templates\dent\add_patient.html:33 .\templates\dent\edit_patient.html:34
+msgid "Male/Female"
+msgstr "Jinsi"
+
+#: .\templates\dent\add_patient.html:35 .\templates\dent\edit_patient.html:36
+msgid "Male"
+msgstr "Erkak"
+
+#: .\templates\dent\add_patient.html:36 .\templates\dent\edit_patient.html:37
+msgid "Female"
+msgstr "Ayol"
+
+#: .\templates\dent\add_patient.html:40 .\templates\dent\edit_patient.html:41
+msgid "Date birth"
+msgstr "Tug'ilgan sana"
+
+#: .\templates\dent\add_patient.html:44 .\templates\dent\edit_patient.html:45
+msgid "Additional(address, phones, allergies ...)"
+msgstr "Qo'shimcha malumot(manzil, tel, allergiyalar, kasalliklar)"
+
+#: .\templates\dent\add_patient.html:47 .\templates\dent\edit_patient.html:55
+msgid "Submit"
+msgstr "Saqlash"
+
+#: .\templates\dent\edit_patient.html:14
+msgid "Edit Patient Info"
+msgstr "O'zgartrish"
+
+#: .\templates\dent\edit_patient.html:49 .\templates\dent\treatement.html:238
+msgid "State"
+msgstr "Holati"
+
+#: .\templates\dent\patient_list.html:10
+msgid "Add"
+msgstr "Qo'shish"
+
+#: .\templates\dent\patient_list.html:11
+msgid "Edit"
+msgstr "O'zgartrish"
+
+#: .\templates\dent\patient_list.html:12
+msgid "Delete"
+msgstr "O'chirish"
+
+#: .\templates\dent\patient_list.html:13
+msgid "Add Treatement"
+msgstr "Protsedura yaratish"
+
+#: .\templates\dent\patient_list.html:24
+msgid "ID"
+msgstr "ID"
+
+#: .\templates\dent\patient_list.html:25
+msgid "FULL NAME"
+msgstr "F.I.SH"
+
+#: .\templates\dent\patient_list.html:26
+msgid "PHONE NUMBER"
+msgstr "Telefon"
+
+#: .\templates\dent\patient_list.html:27
+msgid "DATE BIRTH"
+msgstr "Tug'ilgan sana"
+
+#: .\templates\dent\treatement.html:93
+msgid "Dr."
+msgstr "Dr."
+
+#: .\templates\dent\treatement.html:339
+msgid "Pt."
+msgstr "Pt."
+
+#: .\templates\dent\treatement.html:353
+#, fuzzy
+#| msgid "Edit Patient Info"
+msgid "Patient info"
+msgstr "O'zgartrish"
+
+#: .\templates\dent\treatement.html:366
+msgid "Birth date"
+msgstr "Tug'ilgan sana"
+
+#: .\templates\dent\treatement.html:370
+msgid "Comments"
+msgstr "Qo'shimcha"
+
+#: .\templates\dent\treatement.html:377
+msgid "Complaint"
+msgstr "Shikoyat"
+
+#: .\templates\dent\treatement.html:381
+msgid "Diagnosis"
+msgstr "Tashxis"
+
+#: .\templates\dent\treatement.html:384
+msgid "Next"
+msgstr "Keyingi"
+
+#: .\templates\dent\treatement.html:680
+msgid "Tooth"
+msgstr "Tish"
+
+#: .\templates\dent\treatement.html:721
+msgid "Total"
+msgstr "Umumiy"
+
+#: .\templates\dent\treatement.html:738
+msgid "Paid"
+msgstr "To'landi"
+
+#: .\templates\dent\treatement.html:741
+msgid "Recommendations"
+msgstr "Tavsiyalar"
+
+#: .\templates\home.html:16
+msgid "Home"
+msgstr ""
+
+#: .\templates\home.html:19 .\templates\home.html:194
+msgid "Log Out"
+msgstr ""
+
+#: .\templates\home.html:26
+msgid "Search"
+msgstr "Qidirish"
+
+#: .\templates\home.html:175
+msgid "Calendar"
+msgstr "Kalendar"
+
+#: .\templates\home.html:184
+msgid "Patients"
+msgstr "Patsientlar"

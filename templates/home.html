@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load l10n %}
 {% block title %} Home {% endblock %}
 {% block container %}
 <div class="wrapper">
@@ -178,7 +179,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'patient_list' %}" class="nav-link">
+            <a href="{% url 'patient_list' %}?successSave=false" class="nav-link">
               <i class="nav-icon fas fa-address-book"></i>
               <p>
                 {% trans 'Patients' %}
@@ -219,7 +220,7 @@
     <form id="setlangform" style="float: right" class="form-group" action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="text" value="{{ redirect_to }}">
-            <select class="form-control" style="width: 160px; " name="language" onchange="submitlang()">
+            <select class="form-control" style="width: 160px; " id="cur_lang" name="language" onchange="submitlang()">
               {% get_available_languages as LANGUAGES %}
               {% get_language_info_list for LANGUAGES as languages %}
               {% for language in languages %}
@@ -238,6 +239,7 @@
 </div>
 <!-- ./wrapper -->
   <script>
+    var cur_lang = document.getElementById('cur_lang').value;
     function submitlang() {
     $('#setlangform').submit();
     }

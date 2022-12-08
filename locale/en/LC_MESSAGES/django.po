@@ -1,0 +1,164 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-28 23:29+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\templates\dent\add_patient.html:14
+msgid "Add New Patient"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:25 .\templates\dent\edit_patient.html:26
+#: .\templates\dent\treatement.html:362
+msgid "Full name"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:29 .\templates\dent\edit_patient.html:30
+msgid "Phone"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:33 .\templates\dent\edit_patient.html:34
+msgid "Male/Female"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:35 .\templates\dent\edit_patient.html:36
+msgid "Male"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:36 .\templates\dent\edit_patient.html:37
+msgid "Female"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:40 .\templates\dent\edit_patient.html:41
+msgid "Date birth"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:44 .\templates\dent\edit_patient.html:45
+msgid "Additional(address, phones, allergies ...)"
+msgstr ""
+
+#: .\templates\dent\add_patient.html:47 .\templates\dent\edit_patient.html:55
+msgid "Submit"
+msgstr ""
+
+#: .\templates\dent\edit_patient.html:14
+msgid "Edit Patient Info"
+msgstr ""
+
+#: .\templates\dent\edit_patient.html:49 .\templates\dent\treatement.html:238
+msgid "State"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:10
+msgid "Add"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:11
+msgid "Edit"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:12
+msgid "Delete"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:13
+msgid "Add Treatement"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:24
+msgid "ID"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:25
+msgid "FULL NAME"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:26
+msgid "PHONE NUMBER"
+msgstr ""
+
+#: .\templates\dent\patient_list.html:27
+msgid "DATE BIRTH"
+msgstr ""
+
+#: .\templates\dent\treatement.html:93
+msgid "Dr."
+msgstr ""
+
+#: .\templates\dent\treatement.html:339
+msgid "Pt."
+msgstr ""
+
+#: .\templates\dent\treatement.html:353
+msgid "Patient info"
+msgstr ""
+
+#: .\templates\dent\treatement.html:366
+msgid "Birth date"
+msgstr ""
+
+#: .\templates\dent\treatement.html:370
+msgid "Comments"
+msgstr ""
+
+#: .\templates\dent\treatement.html:377
+msgid "Complaint"
+msgstr ""
+
+#: .\templates\dent\treatement.html:381
+msgid "Diagnosis"
+msgstr ""
+
+#: .\templates\dent\treatement.html:384
+msgid "Next"
+msgstr ""
+
+#: .\templates\dent\treatement.html:680
+msgid "Tooth"
+msgstr ""
+
+#: .\templates\dent\treatement.html:721
+msgid "Total"
+msgstr ""
+
+#: .\templates\dent\treatement.html:738
+msgid "Paid"
+msgstr ""
+
+#: .\templates\dent\treatement.html:741
+msgid "Recommendations"
+msgstr ""
+
+#: .\templates\home.html:16
+msgid "Home"
+msgstr ""
+
+#: .\templates\home.html:19 .\templates\home.html:194
+msgid "Log Out"
+msgstr ""
+
+#: .\templates\home.html:26
+msgid "Search"
+msgstr ""
+
+#: .\templates\home.html:175
+msgid "Calendar"
+msgstr ""
+
+#: .\templates\home.html:184
+msgid "Patients"
+msgstr ""
