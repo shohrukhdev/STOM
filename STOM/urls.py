@@ -29,5 +29,7 @@ urlpatterns = [
     path('patient/list_json', mainviews.get_patient_list_json, name='patient_list_json'),
     path('treatement/add', mainviews.treatment, name='treatment'),
     path('treatment/save', mainviews.save_treatment, name='treatement_save'),
-    path('treatment/info', mainviews.get_treatment, name='treatment')
+    path('treatment/info', mainviews.get_treatment, name='treatment_info'),
+    path('treatment/print', mainviews.treatment_print, name='treatment_print'),
+    path('patient/treatment_history', mainviews.patient_treatment_history, name='patient_treatment_history')
 ]

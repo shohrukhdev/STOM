@@ -1,10 +1,45 @@
-{% extends "home.html" %}
 {% load i18n %}
 {% load l10n %}
 {% load static %}
-{% block title %}{% trans 'Treatment' %}{% endblock %}
+<title>Print</title>
 {% block content %}
+      {% get_current_language as LANG_CODE %}
   <head>
+    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bbootstrap 4 -->
+{#  <link rel="stylesheet" href="{% static 'plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">#}
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static 'plugins/jqvmap/jqvmap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Daterange picker -->
+{#  <link rel="stylesheet" href="{% static 'plugins/daterangepicker/daterangepicker.css' %}">#}
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static 'plugins/summernote/summernote-bs4.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-autofill/css/autoFill.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-colreorder/css/colReorder.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-fixedheader/css/fixedHeader.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-keytable/css/keyTable.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-scroller/css/scroller.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-select/css/select.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/select2/css/select2.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/jquery-datetimepicker/jquery.datetimepicker.css' %}" type="text/css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   </head>
 
 <!-- Main content -->
@@ -12,14 +47,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">{% trans 'Treatment info' %}</h3>
-              <div class="btn-group-xs" style="float: right">
-                <button class="btn bg-gradient-info btn-sm" onclick="printData({{ treatment.reference_id }})">{% trans 'Print' %}</button>
-                <button class="btn bg-gradient-success btn-sm" onclick="backToTreatmentList('{{ treatment.patient.reference_id }}')">{% trans 'Back' %}</button>
-              </div>
-            </div>
+          <div class="card" style="padding: 40px">
             <div id="appointment" class="card-body">
               <h4 class="text-center">{{ treatment.doctor.clinic.name }}</h4>
               <div class="d-flex justify-content-between">
@@ -93,69 +121,15 @@
     </div>
   </section>
 
-<!-- MODAL FORM -->
-  <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">{% trans 'Add appointment' %}</h4>
-          <button type="button" onclick="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="addEventForm">
-            <div class="form-group">
-              <label>{% trans 'Patient' %}</label>
-              <select id="patient_box" name="patient_id" class="form-control select2_mode">
-                <option></option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Title' %}Title</label>
-              <input class="form-control" name="title" type="text" placeholder="Title">
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Start time' %}</label>
-              <input class="form-control jdatetimepicker" id="start_time" name="start_time" type="text"
-                     placeholder="Start time">
-            </div>
-            <div>
-              <label>{% trans 'End time' %}</label>
-              <input class="form-control jdatetimepicker" id="end_time" name="end_time" type="text"
-                     placeholder="{% trans 'Start time' %}">
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Background' %}</label>
-              <input class="form-control" name="background" type="color" value="#99ff00">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
-          <button type="button" onclick="addEvent()" class="btn btn-primary">{% trans 'Add' %}</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
 
 {% endblock %}
 {% block js %}
-  {{ block.super }}
+  <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
   <script>
 
     $(document).ready(function () {
-
+      window.print();
     });
-    function printData(treatment_ref_id) {
-      window.open('{% url 'treatment_print' %}' + '?treatment_ref_id=' + treatment_ref_id, '_blank').focus();
-    }
-
-    function backToTreatmentList(patient_ref_id) {
-      location.href = '{% url 'patient_treatment_history' %}?patient_ref_id=' + patient_ref_id;
-    }
   </script>
 
 {% endblock %}

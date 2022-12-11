@@ -88,7 +88,7 @@ def patient_add(request):
 def patient_edit(request):
     response = {}
     if request.method == 'GET':
-        context = {"patient": service.get_patient(request.GET['patient_id'])}
+        context = {"patient": service.get_patient(request.GET['patient_ref_id'])}
         return render(request, 'dent/edit_patient.html', context=context)
     elif request.method == 'POST':
         response = service.edit_patient(request.POST, request.user)
@@ -125,5 +125,19 @@ def save_treatment(request):
 @login_required
 def get_treatment(request):
     if request.method == 'GET':
-        context = service.get_treatment(request.GET['treatment_id'])
+        context = service.get_treatment(request.GET['treatment_ref_id'])
         return render(request, 'dent/treatment_info.html', context=context)
+
+
+@login_required
+def treatment_print(request):
+    if request.method == 'GET':
+        context = service.get_treatment(request.GET['treatment_ref_id'])
+        return render(request, 'dent/treatment_print.html', context=context)
+
+
+@login_required
+def patient_treatment_history(request):
+    if request.method == 'GET':
+        context = service.get_patient_treatment_history(request.GET['patient_ref_id'])
+        return render(request, 'dent/treatment_history.html', context=context)

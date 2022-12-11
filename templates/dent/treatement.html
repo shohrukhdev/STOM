@@ -497,7 +497,7 @@
         success: function (response) {
           console.log(response);
           if (response.success) {
-
+              location.href='{% url 'treatment_info' %}?treatment_ref_id=' + response.treatment_ref_id.toString();
           } else {
             alert('Error: ' + response.error_msg);
           };

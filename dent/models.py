@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from hashid_field import HashidField, HashidAutoField
+
 
 
 class Clinic(models.Model):
@@ -50,6 +52,7 @@ class Stuff(models.Model):
 
 
 class Patient(models.Model):
+    reference_id = models.CharField(max_length=128, unique=True, null=True)
     clinic = models.ForeignKey(Clinic, on_delete=models.CASCADE, related_name='patient_clinic')
     photo = models.ImageField(null=True, blank=True)
     full_name = models.CharField(max_length=512)
@@ -140,6 +143,7 @@ class Teeth(models.Model):
 
 
 class Treatment(models.Model):
+    reference_id = models.CharField(max_length=128, null=True, blank=True, unique=True)
     doctor = models.ForeignKey(Stuff, on_delete=models.CASCADE, related_name='procedure_doctor')
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='procedure_patient')
     complaint = models.CharField(max_length=4000, null=True, blank=True)

@@ -49,7 +49,7 @@ def add_patient(form, cur_user):
     try:
         stuff = Stuff.objects.get(user=cur_user)
         date_birth = datetime.strptime(form['date_birth'], '%d.%m.%Y')
-        Patient.objects.create(clinic=stuff.clinic,
+        new_patient = Patient.objects.create(clinic=stuff.clinic,
                                full_name=form['full_name'],
                                mobile_phone=form['mobile_phone'],
                                sex=form['sex'],
@@ -58,6 +58,8 @@ def add_patient(form, cur_user):
                                state='A',
                                cr_by=stuff,
                                up_by=stuff)
+        new_patient.reference_id = str(new_patient.id) + '0' + str(int(datetime.now().timestamp()))
+        new_patient.save()
         response['success'] = True
     except Exception as e:
         response['success'] = False
@@ -66,8 +68,8 @@ def add_patient(form, cur_user):
     return response
 
 
-def get_patient(patient_id):
-    return Patient.objects.get(id=patient_id)
+def get_patient(patient_ref_id):
+    return Patient.objects.get(reference_id=patient_ref_id)
 
 
 def edit_patient(form, cur_user):
@@ -89,10 +91,10 @@ def edit_patient(form, cur_user):
     return response
 
 
-def delete_patient(patient_id, cur_user):
+def delete_patient(patient_ref_id, cur_user):
     response = {}
     try:
-        Patient.objects.filter(id=patient_id).update(
+        Patient.objects.filter(reference_id=patient_ref_id).update(
             state='D',
             up_by=get_stuff(cur_user)
         )
@@ -137,7 +139,8 @@ def save_treatment(cur_user, data):
     try:
         doctor = Stuff.objects.get(user=cur_user)
         patient = Patient.objects.get(id=data['patient_id'])
-        treatment = Treatment.objects.create(doctor=doctor,
+        treatment = Treatment.objects.create(reference_id=str(int(datetime.now().timestamp())) + str(patient.id),
+                                             doctor=doctor,
                                              patient=patient,
                                              complaint=data['complaint'],
                                              diagnosis=data['diagnosis'],
@@ -147,6 +150,8 @@ def save_treatment(cur_user, data):
                                              discount=data['discount'],
                                              paid_amount=data['amount_paid'],
                                              cr_by=cur_user)
+        treatment.reference_id = str(treatment.id) + '0' + str(int(datetime.now().timestamp()))
+        treatment.save()
         for i in data.keys():
             if i.isnumeric():  # IF TOOTH NUMBER
                 for s in data[i]:   # SERVICES FOR THAT TOOTH
@@ -165,7 +170,7 @@ def save_treatment(cur_user, data):
                                                        teeth=tooth,
                                                        tooth_state=tooth_state)
         response['success'] = True
-        response['treatment_id'] = treatment.id
+        response['treatment_ref_id'] = treatment.reference_id
     except Exception as e:
         print(traceback.format_exc())
         response['success'] = False
@@ -173,11 +178,17 @@ def save_treatment(cur_user, data):
     return response
 
 
-def get_treatment(treatment_id):
-    treatment = Treatment.objects.get(id=treatment_id)
-    teeth_set = Treatment.objects.get(id=treatment_id).procedure_set
+def get_treatment(treatment_ref_id):
+    treatment = Treatment.objects.get(reference_id=treatment_ref_id)
+    teeth_set = Treatment.objects.get(reference_id=treatment_ref_id).procedure_set
     context = {"treatment": treatment,
                "teeth_set": teeth_set}
+    return context
+
+
+def get_patient_treatment_history(patient_ref_id):
+    treatments = Treatment.objects.filter(patient__reference_id=patient_ref_id)
+    context = {"treatment_list": treatments}
     return context
 
 
