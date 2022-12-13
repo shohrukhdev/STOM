@@ -32,6 +32,21 @@ def add_event(form, cur_user):
     return response
 
 
+def edit_event(form):
+    response = {}
+    try:
+        event = Event.objects.get(id=form['event_id'])
+        event.start_time = datetime.fromtimestamp(form['start_time'])
+        event.end_time = datetime.fromtimestamp(form['end_time'])
+        event.save()
+        response['success'] = True
+    except Exception as e:
+        response['success'] = False
+        response['error_msg'] = str(traceback.format_exc())
+
+    return response
+
+
 def delete_event(id):
     response = {}
     try:
@@ -115,9 +130,9 @@ def get_clinic_patients_json(cur_user):
     return patient_list
 
 
-def treatment_get_context(cur_user, patient_id):
+def treatment_get_context(cur_user, patient_ref_id):
     stuff = Stuff.objects.get(user=cur_user)
-    patient = Patient.objects.get(id=patient_id)
+    patient = Patient.objects.get(reference_id=patient_ref_id)
     services = Service.objects.filter(doctor=stuff, status=1).values()
     categories = ServiceCategory.objects.filter(stuff=stuff)
     tooth_states = ToothState.objects.all().values()

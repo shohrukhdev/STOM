@@ -9,7 +9,7 @@ from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 import dent.services as service
-
+from datetime import datetime
 
 def user_login(request):
     if request.method == 'POST':
@@ -110,7 +110,7 @@ def get_patient_list_json(request):
 @login_required
 def treatment(request):
     if request.method == 'GET':
-        context = service.treatment_get_context(request.user, request.GET['patient_id'])
+        context = service.treatment_get_context(request.user, request.GET['patient_ref_id'])
         return render(request, 'dent/treatement.html', context=context)
 
 
@@ -141,3 +141,11 @@ def patient_treatment_history(request):
     if request.method == 'GET':
         context = service.get_patient_treatment_history(request.GET['patient_ref_id'])
         return render(request, 'dent/treatment_history.html', context=context)
+
+
+@login_required
+def event_edit(request):
+    if request.is_ajax and request.method == 'POST':
+        data = json.loads(request.body)
+        response = service.edit_event(data)
+        return JsonResponse(response, status=200, safe=False)

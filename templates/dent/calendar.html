@@ -195,7 +195,7 @@
           showEvent(info);
         },
         plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'dayGridPlugin', 'listPlugin'],
-        defaultView: 'timeGridDay',
+        defaultView: 'timeGridWeek',
         header: {
           left: 'prev,next today',
           center: 'title',
@@ -212,17 +212,18 @@
         events: '/api/event',
         editable: true,
         droppable: true, // this allows things to be dropped onto the calendar !!!
-        drop: function (info) {
-          // is the "remove after drop" checkbox checked?
-          if (checkbox.checked) {
-            // if so, remove the element from the "Draggable Events" list
-            info.draggedEl.parentNode.removeChild(info.draggedEl);
-          }
+        eventDrop: function (info) {
+          changeEventTime(info.event.id,
+                          info.event.start.getTime()/1000,
+                          info.event.end.getTime()/1000);
+        },
+        eventResize: function (info) {
+          changeEventTime(info.event.id,
+                          info.event.start.getTime()/1000,
+                          info.event.end.getTime()/1000);
         }
       });
-
       calendar.render();
-
     }
 
     function addEvent() {
@@ -261,8 +262,33 @@
       });
     }
 
-    function switchListView() {
+    function changeEventTime(event_id, start_time, end_time) {
+        post_data = {"event_id": event_id,
+                     "start_time": start_time,
+                     "end_time": end_time};
+        $.ajax({
+          type: "POST",
+          url: "{% url 'event_edit' %}",
+          headers: {'X-CSRFToken': getCookie('csrftoken')},
+          data: JSON.stringify(post_data),
+          success: function (response) {
+            if (response.success){
+              $(document).Toasts('create',{
+              title: 'Info',
+              body: 'Updated Successfully!',
+              autohide: true,
+              delay: 3000,
+              fade: true,
+              class: 'bg-success'
+              })
+            } else {
+              console.log(response);
+              alert(response.error_msg);
+            }
+            reRenderCalendar();
+          }
 
+        });
     }
 
     function closeModal() {

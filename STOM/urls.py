@@ -31,5 +31,6 @@ urlpatterns = [
     path('treatment/save', mainviews.save_treatment, name='treatement_save'),
     path('treatment/info', mainviews.get_treatment, name='treatment_info'),
     path('treatment/print', mainviews.treatment_print, name='treatment_print'),
-    path('patient/treatment_history', mainviews.patient_treatment_history, name='patient_treatment_history')
+    path('patient/treatment_history', mainviews.patient_treatment_history, name='patient_treatment_history'),
+    path('calendar/event/edit', mainviews.event_edit, name='event_edit')
 ]
