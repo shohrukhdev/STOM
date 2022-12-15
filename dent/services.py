@@ -43,7 +43,6 @@ def edit_event(form):
     except Exception as e:
         response['success'] = False
         response['error_msg'] = str(traceback.format_exc())
-
     return response
 
 

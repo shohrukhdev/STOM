@@ -17,7 +17,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', mainviews.user_login, name='login'),
     path('logout/', authview.LogoutView.as_view(template_name='logout.html'), name='logout'),
-    path('', mainviews.home),
+    path('', mainviews.home, name='home'),
     path('home/', mainviews.home),
     path('calendar/', mainviews.calendar, name='calendar'),
     path('calendar-list/', mainviews.calendar_list, name='calendar_list'),
