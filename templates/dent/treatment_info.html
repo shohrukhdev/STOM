@@ -1,0 +1,162 @@
+{% extends "home.html" %}
+{% load i18n %}
+{% load l10n %}
+{% load static %}
+{% block title %}{% trans 'Treatment' %}{% endblock %}
+{% block content %}
+  <head>
+  </head>
+
+<!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">{% trans 'Treatment info' %}</h3>
+              <div class="btn-group-xs" style="float: right">
+                <button class="btn bg-gradient-info btn-sm" onclick="printData({{ treatment.reference_id }})">{% trans 'Print' %}</button>
+                <button class="btn bg-gradient-success btn-sm" onclick="backToTreatmentList('{{ treatment.patient.reference_id }}')">{% trans 'Back' %}</button>
+              </div>
+            </div>
+            <div id="appointment" class="card-body">
+              <h4 class="text-center">{{ treatment.doctor.clinic.name }}</h4>
+              <div class="d-flex justify-content-between">
+                  <div class="pull-left">Dr.{{ treatment.doctor.user.get_full_name }}</div>
+                  <div class="pull-right">{{ treatment.cr_on }}</div>
+              </div>
+
+
+              <table id="printable" class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td><b>{% trans 'Patient' %}</b></td>
+                    <td colspan="2">{{ treatment.patient.full_name }} ; {% trans 'Date birth: ' %} {{ treatment.patient.date_birth }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{% trans 'Complaint' %}</b></td>
+                    <td colspan="2">{{ treatment.complaint }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{% trans 'Diagnosis' %}</b></td>
+                    <td colspan="2">{{ treatment.diagnosis }}</td>
+                  </tr>
+                {% regroup treatment.procedure_set.all by teeth as teeth_list %}
+                {% for t in teeth_list %}
+                  <tr>
+                    <td colspan="3"><b>{% trans 'Teeth' %} {{ t.grouper.code }}
+                      | {% trans 'States' %}:</b>
+                        {% for s in treatment.proceduretoothstate_set.all %}
+                          {% if s.teeth.code == t.grouper.code %}
+                            {% if LANG_CODE == 'uz' %}
+                              {{ s.tooth_state.name_uz }};
+                            {% endif %}
+                            {% if LANG_CODE == 'ru' %}
+                              {{ s.tooth_state.name_ru }};
+                            {% endif %}
+                            {% if LANG_CODE == 'en' %}
+                              {{ s.tooth_state.name }};
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">
+                    <table class="table table-bordered">
+                      {% for pd in t.list %}
+                        <tr>
+                          <td>{{ pd.service.name }}</td>
+                          <td>{{ pd.quantity }} x {{ pd.price }} {% trans 'sum' %}</td>
+                        </tr>
+                      {% endfor %}
+                      </table>
+                    </td>
+                  </tr>
+                {% endfor %}
+                <tr>
+                  <td><b>{% trans 'Recommendations' %}</b></td>
+                  <td colspan="2">{{ treatment.description }}</td>
+                </tr>
+                <tr>
+                  <td>{% trans 'Total' %}: {{ treatment.total_amount|localize }} {% trans 'sum' %}</td>
+                  <td>{% trans 'Discount' %}: {{ treatment.discount }}% ({{ treatment.get_actual_amount }} {% trans 'sum' %}) </td>
+                  <td>{% trans 'Paid' %}: {{ treatment.paid_amount }} {% trans 'sum' %}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- MODAL FORM -->
+  <div class="modal fade" id="modal-lg" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{% trans 'Add appointment' %}</h4>
+          <button type="button" onclick="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="addEventForm">
+            <div class="form-group">
+              <label>{% trans 'Patient' %}</label>
+              <select id="patient_box" name="patient_id" class="form-control select2_mode">
+                <option></option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>{% trans 'Title' %}Title</label>
+              <input class="form-control" name="title" type="text" placeholder="Title">
+            </div>
+            <div class="form-group">
+              <label>{% trans 'Start time' %}</label>
+              <input class="form-control jdatetimepicker" id="start_time" name="start_time" type="text"
+                     placeholder="Start time">
+            </div>
+            <div>
+              <label>{% trans 'End time' %}</label>
+              <input class="form-control jdatetimepicker" id="end_time" name="end_time" type="text"
+                     placeholder="{% trans 'Start time' %}">
+            </div>
+            <div class="form-group">
+              <label>{% trans 'Background' %}</label>
+              <input class="form-control" name="background" type="color" value="#99ff00">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button type="button" onclick="addEvent()" class="btn btn-primary">{% trans 'Add' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
+{% block js %}
+  {{ block.super }}
+  <script>
+
+    $(document).ready(function () {
+
+    });
+    function printData(treatment_ref_id) {
+      window.open('{% url 'treatment_print' %}' + '?treatment_ref_id=' + treatment_ref_id, '_blank').focus();
+    }
+
+    function backToTreatmentList(patient_ref_id) {
+      location.href = '{% url 'patient_treatment_history' %}?patient_ref_id=' + patient_ref_id;
+    }
+  </script>
+
+{% endblock %}
+
