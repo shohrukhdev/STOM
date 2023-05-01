@@ -148,6 +148,7 @@ local.LANG_INFO = LANG_INFO
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'stom_files')
 
 
 # Static files (CSS, JavaScript, Images)

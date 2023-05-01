@@ -167,6 +167,17 @@ class Treatment(models.Model):
         verbose_name_plural = 'Treatments'
 
 
+class TreatmentFile(models.Model):
+    """Treatment files."""
+    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, related_name='file_treatment')
+    file_name = models.CharField(max_length=128, null=True)
+    file = models.FileField(upload_to='stom_files/%Y/%m/%d')
+    cr_on = models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        verbose_name = 'File'
+        verbose_name_plural = 'Files'
+
 class Procedure(models.Model):
     treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE)
     teeth = models.ForeignKey(Teeth, on_delete=models.CASCADE, related_name='procedure_teeth')

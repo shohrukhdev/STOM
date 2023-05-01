@@ -61,6 +61,12 @@ class ServiceCategoryAdmin(admin.ModelAdmin):
 class ToothStateAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(ProcedureToothState)
 class ProvedureToothStateAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(TreatmentFile)
+class TreatmentFileAdmin(admin.ModelAdmin):
     pass
