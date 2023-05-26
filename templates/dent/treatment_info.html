@@ -16,9 +16,16 @@
             <div class="card-header">
               <h3 class="card-title">{% trans 'Treatment info' %}</h3>
               <div class="btn-group-xs" style="float: right">
+                <button id="saveFile" class="btn bg-gradient-indigo btn-sm"><i class="fa fa-paperclip" aria-hidden="true"></i> File</button>
                 <button class="btn bg-gradient-info btn-sm" onclick="printData({{ treatment.reference_id }})">{% trans 'Print' %}</button>
                 <button class="btn bg-gradient-success btn-sm" onclick="backToTreatmentList('{{ treatment.patient.reference_id }}')">{% trans 'Back' %}</button>
               </div>
+              <form action="{% url "upload_file" %}" method="post" id="fileForm" enctype="multipart/form-data" class="form-inline" style="float: right; display: none">
+                {% csrf_token %}
+                <input type="hidden" name="tr_ref_id" value="{{ treatment.reference_id }}">
+                <input id="fileName" name="file_name" type="text" required>
+                <input id="file" name="file" type="file" required>
+                </form>
             </div>
             <div id="appointment" class="card-body">
               <h4 class="text-center">{{ treatment.doctor.clinic.name }}</h4>
@@ -28,7 +35,7 @@
               </div>
 
 
-              <table id="printable" class="table table-bordered">
+              <table id="printable" class="table table-bordered table-hover">
                 <tbody>
                   <tr>
                     <td><b>{% trans 'Patient' %}</b></td>
@@ -84,6 +91,21 @@
                   <td>{% trans 'Discount' %}: {{ treatment.discount }}% ({{ treatment.get_actual_amount }} {% trans 'sum' %}) </td>
                   <td>{% trans 'Paid' %}: {{ treatment.paid_amount }} {% trans 'sum' %}</td>
                 </tr>
+                <tr data-toggle="collapse" data-target="#files" class="accordion-toggle">
+                  <td colspan="3">{% trans 'Files' %}</td>
+                </tr>
+                <tr class="hiddenRow" id="files">
+                  <td colspan="3">
+                    <table class="table table-bordered">
+                      {% for f in treatment.file_treatment.all %}
+                        <tr>
+                          <td>{{ f.file_name }}</td>
+                          <td><a href="{{ f.file.url }}" target="_blank">{% trans 'Download' %}</a></td>
+                        </tr>
+                      {% endfor %}
+                    </table>
+                  </td>
+                </tr>
                 </tbody>
               </table>
             </div>
@@ -104,32 +126,6 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="addEventForm">
-            <div class="form-group">
-              <label>{% trans 'Patient' %}</label>
-              <select id="patient_box" name="patient_id" class="form-control select2_mode">
-                <option></option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Title' %}Title</label>
-              <input class="form-control" name="title" type="text" placeholder="Title">
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Start time' %}</label>
-              <input class="form-control jdatetimepicker" id="start_time" name="start_time" type="text"
-                     placeholder="Start time">
-            </div>
-            <div>
-              <label>{% trans 'End time' %}</label>
-              <input class="form-control jdatetimepicker" id="end_time" name="end_time" type="text"
-                     placeholder="{% trans 'Start time' %}">
-            </div>
-            <div class="form-group">
-              <label>{% trans 'Background' %}</label>
-              <input class="form-control" name="background" type="color" value="#99ff00">
-            </div>
-          </form>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" onclick="closeModal()" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -156,6 +152,24 @@
     function backToTreatmentList(patient_ref_id) {
       location.href = '{% url 'patient_treatment_history' %}?patient_ref_id=' + patient_ref_id;
     }
+    $("#saveFile").click(function () {
+      if ($("#fileForm").css("display") === "none") {
+
+        $("#fileForm").show();
+
+      } else {
+        if ($("#fileName").val() === ""){
+          $("#fileName").addClass("highlight");
+          $("#fileName").focus()
+        } else if($("#file").val() === "") {
+          $("#file").addClass("highlight");
+          $("#file").focus()
+        } else {
+          $("#fileForm").submit()
+        }
+
+      }
+    });
   </script>
 
 {% endblock %}

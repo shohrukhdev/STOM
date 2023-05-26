@@ -148,22 +148,24 @@ def treatment_get_context(cur_user, patient_ref_id):
 
 
 def save_treatment(cur_user, data):
-    global procedure
+    procedure = None
     response = {}
     try:
         doctor = Stuff.objects.get(user=cur_user)
         patient = Patient.objects.get(id=data['patient_id'])
-        treatment = Treatment.objects.create(reference_id=str(int(datetime.now().timestamp())) + str(patient.id),
-                                             doctor=doctor,
-                                             patient=patient,
-                                             complaint=data['complaint'],
-                                             diagnosis=data['diagnosis'],
-                                             cr_on=datetime.now(),
-                                             description=data['recommendations'],
-                                             total_amount=data['total'],
-                                             discount=data['discount'],
-                                             paid_amount=data['amount_paid'],
-                                             cr_by=cur_user)
+        treatment = Treatment.objects.create(
+            reference_id=str(int(datetime.now().timestamp())) + str(patient.id),
+            doctor=doctor,
+            patient=patient,
+            complaint=data['complaint'],
+            diagnosis=data['diagnosis'],
+            cr_on=datetime.now(),
+            description=data['recommendations'],
+            total_amount=data['total'],
+            discount=data['discount'],
+            paid_amount=data['amount_paid'],
+            cr_by=cur_user
+        )
         treatment.reference_id = str(treatment.id) + '0' + str(int(datetime.now().timestamp()))
         treatment.save()
         for i in data.keys():
@@ -186,7 +188,6 @@ def save_treatment(cur_user, data):
         response['success'] = True
         response['treatment_ref_id'] = treatment.reference_id
     except Exception as e:
-        print(traceback.format_exc())
         response['success'] = False
         response['error_msg'] = traceback.format_exc()
     return response
@@ -204,5 +205,26 @@ def get_patient_treatment_history(patient_ref_id):
     treatments = Treatment.objects.filter(patient__reference_id=patient_ref_id)
     context = {"treatment_list": treatments}
     return context
+
+
+def save_treatment_file(user, req):
+    response = {}
+    treatment = Treatment.objects.get(
+        reference_id=req.POST["tr_ref_id"]
+    )
+    response["treatment_ref_id"] = treatment.reference_id
+    try:
+
+        TreatmentFile.objects.create(
+            treatment=treatment,
+            file_name=req.POST["file_name"],
+            file=req.FILES["file"],
+            cr_by=user
+        )
+        response["success"] = True
+    except Exception as e:
+        response['success'] = False
+        response['error_msg'] = traceback.format_exc()
+    return response
 
 

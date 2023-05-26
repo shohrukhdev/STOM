@@ -148,7 +148,7 @@ local.LANG_INFO = LANG_INFO
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'stom_files')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Static files (CSS, JavaScript, Images)
@@ -168,5 +168,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = "/home"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'

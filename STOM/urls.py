@@ -1,7 +1,9 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
+from STOM import settings
 from dent import views as mainviews
 from django.contrib.auth import views as authview
 from dent import api_views, table_views
@@ -32,5 +34,6 @@ urlpatterns = [
     path('treatment/info', mainviews.get_treatment, name='treatment_info'),
     path('treatment/print', mainviews.treatment_print, name='treatment_print'),
     path('patient/treatment_history', mainviews.patient_treatment_history, name='patient_treatment_history'),
-    path('calendar/event/edit', mainviews.event_edit, name='event_edit')
-]
+    path('calendar/event/edit', mainviews.event_edit, name='event_edit'),
+    path('treatment/file/upload', mainviews.upload_file, name='upload_file')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

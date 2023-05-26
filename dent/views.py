@@ -1,15 +1,13 @@
 import json
 import traceback
 
-from django.shortcuts import render
-from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.template import RequestContext
+from django.shortcuts import render, redirect
+
 import dent.services as service
-from datetime import datetime
+
 
 def user_login(request):
     if request.method == 'POST':
@@ -33,7 +31,8 @@ def user_login(request):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'dent/report.html')
+
 
 
 @login_required
@@ -86,7 +85,6 @@ def patient_add(request):
 
 @login_required
 def patient_edit(request):
-    response = {}
     if request.method == 'GET':
         context = {"patient": service.get_patient(request.GET['patient_ref_id'])}
         return render(request, 'dent/edit_patient.html', context=context)
@@ -149,3 +147,16 @@ def event_edit(request):
         data = json.loads(request.body)
         response = service.edit_event(data)
         return JsonResponse(response, status=200, safe=False)
+
+
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        response = service.save_treatment_file(
+            request.user, request
+        )
+        return redirect(
+            f"/treatment/info?treatment_ref_id={response['treatment_ref_id']}"
+            f"&success={response['success']}"
+            f"&error_msg={response.get('error_msg')}"
+        )
