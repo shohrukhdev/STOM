@@ -166,7 +166,7 @@ def save_treatment(cur_user, data):
             paid_amount=data['amount_paid'],
             cr_by=cur_user
         )
-        treatment.reference_id = str(treatment.id) + '0' + str(int(datetime.now().timestamp()))
+        treatment.reference_id = f"{treatment.id}0{int(datetime.now().timestamp())}"
         treatment.save()
         for i in data.keys():
             if i.isnumeric():  # IF TOOTH NUMBER
